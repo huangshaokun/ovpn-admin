@@ -39,5 +39,5 @@ services:
       LOG_LEVEL: "debug"
     network_mode: service:openvpn
     volumes:
-      - ./easyrsa_master:/mnt/easyrsa
-      - ./ccd_master:/mnt/ccd
+      - ./openvpn_conf/easyrsa:/mnt/easyrsa
+      - ./openvpn_conf/ccd:/mnt/ccd
