@@ -8,18 +8,17 @@ services:
     image: openvpn:local
     command: /etc/openvpn/setup/configure.sh
     environment:
-      OVPN_SERVER_NET: "192.168.100.0"
-      OVPN_SERVER_MASK: "255.255.255.0"
+      OVPN_SERVER_NET: "10.8.0.0"
+      OVPN_SERVER_MASK: "255.255.0.0"
       OVPN_PASSWD_AUTH: "true"
     cap_add:
       - NET_ADMIN
     ports:
       - 7777:1194 # for openvpn
-      - 8080:8080 # for ovpn-admin because of network_mode
+      - 127.0.0.1:8080:8080 # for ovpn-admin because of network_mode
     volumes:
-      - ./openvpn_conf/:/etc/openvpn/
-      # - ./easyrsa_master:/etc/openvpn/easyrsa
-      # - ./ccd_master:/etc/openvpn/ccd
+      - ./easyrsa_master:/etc/openvpn/easyrsa
+      - ./ccd_master:/etc/openvpn/ccd
   ovpn-admin:
     build:
       context: .
@@ -28,7 +27,7 @@ services:
     environment:
       OVPN_DEBUG: "true"
       OVPN_VERBOSE: "true"
-      OVPN_NETWORK: "192.168.100.0/24"
+      OVPN_NETWORK: "10.8.0.0/16"
       OVPN_CCD: "true"
       OVPN_CCD_PATH: "/mnt/ccd"
       EASYRSA_PATH: "/mnt/easyrsa"
@@ -39,5 +38,5 @@ services:
       LOG_LEVEL: "debug"
     network_mode: service:openvpn
     volumes:
-      - ./openvpn_conf/easyrsa:/mnt/easyrsa
-      - ./openvpn_conf/ccd:/mnt/ccd
+      - ./easyrsa_master:/mnt/easyrsa
+      - ./ccd_master:/mnt/ccd
