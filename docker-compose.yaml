@@ -17,9 +17,9 @@ services:
       - 7777:1194 # for openvpn
       - 8080:8080 # for ovpn-admin because of network_mode
     volumes:
-      - ./openvpn.conf:/etc/openvpn/openvpn.conf
-      - ./easyrsa_master:/etc/openvpn/easyrsa
-      - ./ccd_master:/etc/openvpn/ccd
+      - ./openvpn_conf/:/etc/openvpn/
+      # - ./easyrsa_master:/etc/openvpn/easyrsa
+      # - ./ccd_master:/etc/openvpn/ccd
   ovpn-admin:
     build:
       context: .
